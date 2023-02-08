@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .container{
+           margin-left: 300px;
+           width: 700px;
+           min-height: 500px;
+           background: rgb(177, 177, 222);
+       }
+       .container .Form_input{
+           margin-left: 30px;
+           margin-top: 10px;
+       }
+       #save{
+           margin-top: 20px;
+           margin-left: 20px;
+           background: rgb(177, 177, 222);
+           color: red;
+       }
+       #show{
+            background: rgb(177, 177, 222);
+            color: red;
+       }
+       #reset{
+        background: rgb(177, 177, 222);
+           color: red;
+       }
+       #table{
+        background-color: rgb(115, 226, 167);
+       }
+       </style>
+</head>
+
+
+  <body onload="Show()">
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <div class="container">
+        <div class="Form_input"> <br/> <br/>
+            <label for="Name">You Name</label>
+            <input type="text" id="You_Name" class="Infor_input">
+        </div>
+        <div class="Form_input">
+            <label for="Name">Id_pro</label>
+            <input type="number" id="Id_pro" class="Infor_input">
+        </div>
+        <div class="Form_input">
+            <label for="Name">Name_pro</label>
+            <input type="text" id="Name_pro" class="Infor_input">
+        </div>
+        <div class="Form_input">
+            <label for="Name">Quan_pro</label>
+            <input type="number" id="Quan_pro" class="Infor_input">
+        </div>
+        <div class="Form_input">
+            <label for="Name">Pri_pro</label>
+            <input type="number" id="Pri_pro" class="Infor_input">
+        </div>
+        <input type="hidden" id="idex">
+        <button onclick="save()" id="save">Save</button> 
+        <button onclick="Show()" id="show">Show</button> <button id="reset">Reset</button>
+        <button onclick="them()">Cap nhat</button> <br/> <br/>
+
+        <table border="1px" id="table">
+        
+         
+        </table>
+    </div>
+ 
+</body>
+
+<script type="text/javascript">
+    function ckeck_erro(){
+        var input_class=document.querySelector(".container")
+        var input_infor=input_class.querySelectorAll(".Infor_input")
+
+        for(var i=0;i<input_infor.length;i++){
+            if(input_infor[i].value==""){
+                input_infor[i].parentElement.querySelector(".Infor_input").style.borderColor=("red")
+            }else{
+                input_infor[i].parentElement.querySelector(".Infor_input").style.borderColor=("green")
+            }
+        }
+    }
+    var array=localStorage.getItem("product")?JSON.parse(localStorage.getItem("product")):[]
+    function save(){
+       
+       ckeck_erro()
+       var n_pro=document.getElementById("You_Name").value
+       var i_pro=document.getElementById("Id_pro").value
+       var na_pro=document.getElementById("Name_pro").value
+       var q_pro=document.getElementById("Quan_pro").value
+       var p_pro=document.getElementById("Pri_pro").value
+     
+       var mang={
+        n:n_pro,
+        i:i_pro,
+        na:na_pro,
+        q:q_pro,
+        p:p_pro
+       }
+       if(n_pro!=""&& i_pro!=""&& na_pro!=""&&q_pro!=""&&p_pro!=""){
+        array.push(mang)
+        localStorage.setItem("product", JSON.stringify(array))
+       }
+      
+       Reset()
+       window.location.reload();
+    }
+
+    function Show(){
+        var array=localStorage.getItem("product")?JSON.parse(localStorage.getItem("product")):[]
+        table=`
+        <tr>
+            <th>Stt</th>
+            <th>Tên KH</th>
+            <th>Id_Spham</th>
+            <th>Tên_Spham</th>
+            <th>Số_lượng</th>
+            <th>Giá_Spham</th>
+            <th>Giảm Giá</th>
+            <th>Tổng giá</th>
+            <th>Tổng tiền</th>
+            <th>Chọn </th>
+        </tr>
+        `
+        array.map((value,index)=>{
+            table+=`
+            <tr>
+                <td>${index+1}</td>
+                <td>${value.n}</td>
+                <td>${value.i}</td>
+                <td>${value.na}</td>
+                <td>${value.q}</td>
+                <td>${value.p}</td>
+                <td>${((value.q*value.p)*1.5)}</td>
+                <td>${(value.q*value.p)}</td>
+                <td>${((value.q*value.p)*1.5)+(value.q*value.p)}</td>
+                <td><button onclick="sua(${index})">Edit </button> 
+                <td><button onclick="xoa(${index})">Xoa </button> 
+            </tr>
+            `
+
+            document.getElementById("table").innerHTML=table
+        })
+            
+    }
+       
+  function Reset(){
+    var n_pro=document.getElementById("You_Name").value=""
+       var i_pro=document.getElementById("Id_pro").value=""
+       var na_pro=document.getElementById("Name_pro").value=""
+       var q_pro=document.getElementById("Quan_pro").value=""
+       var p_pro=document.getElementById("Pri_pro").value=""
+  }
+function sua(index){
+    var array=localStorage.getItem("product")?JSON.parse(localStorage.getItem("product")):[]
+    var index=document.getElementById("idex").value=index
+    document.getElementById("You_Name").value=array[index].n
+    document.getElementById("Id_pro").value=array[index].i
+document.getElementById("Name_pro").value=array[index].na
+    document.getElementById("Quan_pro").value=array[index].q
+    document.getElementById("Pri_pro").value=array[index].p
+}
+function them(){
+    var array=localStorage.getItem("product")?JSON.parse(localStorage.getItem("product")):[]
+    var inde=document.getElementById("idex").value
+
+    array[inde]={
+        n:document.getElementById("You_Name").value,
+        i:document.getElementById("Id_pro").value,
+        na:document.getElementById("Name_pro").value,
+        q:document.getElementById("Quan_pro").value,
+        p:document.getElementById("Pri_pro").value
+    }
+    localStorage.setItem("product",JSON.stringify(array))
+    Show()
+}
+
+function xoa(index){
+    var array=localStorage.getItem("product")?JSON.parse(localStorage.getItem("product")):[];
+    array.splice(index,1);
+    localStorage.setItem("luc", JSON.stringify(array));
+    window.location.reload();
+    
+}
+
+</script>
+</html>
